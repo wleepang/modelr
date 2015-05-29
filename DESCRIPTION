@@ -4,7 +4,6 @@ Title: Object oriented model based optimization
 Version: 0.1.0
 Date: 2015-05-29
 Author: W. Lee Pang
-Maintainer: W. Lee Pang
 Description: Provides classes for model object construction that automates
     calculation of analytical gradients, jacobians, and hessians for faster
     optimization.
