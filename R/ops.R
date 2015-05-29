@@ -1,3 +1,36 @@
+#' Mix (combine) ModelObjects
+#' 
+#' @param ... list of ModelObjects
+#' @param op operator by which the models are mixed. Default is \code{`+`}.
+#' 
+#' @return
+#' A new ModelObject instance that is the combination of the inputs
+#' 
+#' @export
+mix = function(..., op='+') {
+  mol = list(...)
+  
+  if (length(mol) < 2) {
+    return(mol[[1]])
+    
+  } else {
+    mo = Reduce(function(x, y) {
+      expr = expression()
+      expr[[1]] = parse(text=paste(as.character(x$expr), as.character(y$expr), sep = op))[[1]]
+      
+      ModelObject(
+        name = paste(x$name, y$name, sep = op),
+        expr = expr,
+        P = list(p0=c(x$P$p0, y$P$p0),
+                 lb=c(x$P$lb, y$P$lb),
+                 ub=c(x$P$ub, y$P$ub))
+      )
+    }, mol)
+    
+    return(mo)
+  }
+}
+
 #' Wrap ModelObjects with transformation functions (NSE)
 #' 
 #' @param ... list of ModelObjects
